@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SBM 2025 - Exclusive Access</title>
+    
+    <style>
+        /* Reset and base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Custom font for a modern festival vibe */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
+
+        /* CSS Variables for easy theme management */
+        :root {
+            --electric-blue: #0023ff;
+            --pure-black: #000000;
+            --pure-white: #ffffff;
+            --error-red: #ff0023;
+            --glass-bg: rgba(0, 0, 0, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Main body styling with background image */
+        body {
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--pure-black);
+            /* Background image with overlay for better text readability */
+            background-image: 
+                linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+                url('logo.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            overflow-x: hidden;
+        }
+
+        /* Main container with glassmorphism effect */
+        .container {
+            width: 90%;
+            max-width: 400px;
+            padding: 3rem 2rem;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 35, 255, 0.2);
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+            20%, 40%, 60%, 80% { transform: translateX(5px); }
+        }
+
+        /* Typography */
+        h1 {
+            color: var(--pure-white);
+            font-size: 2rem;
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.5px;
+        }
+
+        .subtitle {
+            color: var(--electric-blue);
+            text-align: center;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* Form styling */
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .input-group {
+            position: relative;
+        }
+
+        label {
+            display: block;
+            color: var(--pure-white);
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        input {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid transparent;
+            border-radius: 10px;
+            color: var(--pure-white);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* Input focus states */
+        input:focus {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: var(--electric-blue);
+            box-shadow: 0 0 0 3px rgba(0, 35, 255, 0.2);
+        }
+
+        /* Submit button */
+        .submit-btn {
+            background: var(--electric-blue);
+            color: var(--pure-white);
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            margin-top: 1rem;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(0, 35, 255, 0.4);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        /* Loading state for button */
+        .submit-btn.loading {
+            pointer-events: none;
+            opacity: 0.8;
+        }
+
+        .submit-btn.loading::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--pure-white);
+            border-radius: 50%;
+            border-top-color: transparent;
+            left: 50%;
+            top: 50%;
+            margin-left: -10px;
+            margin-top: -10px;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Error message styling */
+        .error-message {
+            background: rgba(255, 0, 35, 0.1);
+            border: 1px solid var(--error-red);
+            color: var(--pure-white);
+            padding: 1rem;
+            border-radius: 10px;
+            margin-top: 1rem;
+            text-align: center;
+            display: none;
+            animation: shake 0.5s ease-in-out;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        /* Success message */
+        .success-message {
+            color: #00ff88;
+            text-align: center;
+            margin-top: 1rem;
+            font-weight: 600;
+            display: none;
+        }
+
+        /* Footer text */
+        .footer-text {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.8rem;
+            margin-top: 2rem;
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 480px) {
+            .container {
+                width: 95%;
+                padding: 2rem 1.5rem;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            .subtitle {
+                font-size: 0.9rem;
+            }
+
+            input {
+                padding: 0.875rem;
+            }
+
+            .submit-btn {
+                padding: 0.875rem 1.5rem;
+                font-size: 1rem;
+            }
+        }
+
+        /* Reduced motion preferences */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>SBM 2025</h1>
+        <p class="subtitle">Exclusive Access</p>
+        
+        <!-- Main form for email collection -->
+        <form id="accessForm">
+            <div class="input-group">
+                <label for="email">Email</label>
+                <input 
+                    type="email" 
+                    id="email" 
+                    name="email" 
+                    placeholder="your@email.com" 
+                    required
+                    autocomplete="email"
+                >
+            </div>
+            
+            <div class="input-group">
+                <label for="password">Access Code</label>
+                <input 
+                    type="password" 
+                    id="password" 
+                    name="password" 
+                    placeholder="Enter your access code" 
+                    required
+                    autocomplete="off"
+                >
+            </div>
+            
+            <button type="submit" class="submit-btn" id="submitBtn">
+                Get Exclusive Access
+            </button>
+            
+            <!-- Error message container -->
+            <div class="error-message" id="errorMessage">
+                Invalid access code. Please try again.
+            </div>
+            
+            <!-- Success message container -->
+            <div class="success-message" id="successMessage">
+                Success! Redirecting to exclusive content...
+            </div>
+        </form>
+        
+        <p class="footer-text">
+            © 2025 SBM. All rights reserved.
+        </p>
+    </div>
+
+    <script>
+        // Configuration
+        const CONFIG = {
+            // Hardcoded password for access
+            correctPassword: '!nnovate',
+            // Formspree endpoint for email collection
+            formspreeUrl: 'https://formspree.io/f/xanjyvly',
+            // Google Drive redirect URL (you'll need to add this)
+            redirectUrl: 'https://drive.google.com/drive/folders/1L4_zken8Bm_2-GwHApdFqekwVNbi3PS3?usp=share_link'
+        };
+
+        // Get form elements
+        const form = document.getElementById('accessForm');
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+        const submitBtn = document.getElementById('submitBtn');
+        const errorMessage = document.getElementById('errorMessage');
+        const successMessage = document.getElementById('successMessage');
+
+        // Handle form submission
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault(); // Prevent default form submission
+            
+            // Reset messages
+            errorMessage.classList.remove('show');
+            successMessage.style.display = 'none';
+            
+            // Get input values
+            const email = emailInput.value.trim();
+            const password = passwordInput.value;
+            
+            // Validate password
+            if (password !== CONFIG.correctPassword) {
+                // Show error message for incorrect password
+                errorMessage.classList.add('show');
+                passwordInput.value = ''; // Clear password field
+                passwordInput.focus(); // Focus back on password field
+                return;
+            }
+            
+            // Password is correct - proceed with email submission
+            try {
+                // Show loading state
+                submitBtn.classList.add('loading');
+                submitBtn.textContent = '';
+                
+                // Submit email to Formspree
+                const response = await fetch(CONFIG.formspreeUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        email: email,
+                        _subject: 'New Festival 2025 Registration'
+                    })
+                });
+                
+                if (response.ok) {
+                    // Success! Show success message
+                    successMessage.style.display = 'block';
+                    form.style.opacity = '0.5';
+                    form.style.pointerEvents = 'none';
+                    
+                    // Redirect to Google Drive after a short delay
+                    setTimeout(() => {
+                        window.location.href = CONFIG.redirectUrl;
+                    }, 2000);
+                } else {
+                    // Handle submission error
+                    throw new Error('Submission failed');
+                }
+            } catch (error) {
+                // Handle any errors during submission
+                console.error('Error submitting form:', error);
+                errorMessage.textContent = 'Something went wrong. Please try again.';
+                errorMessage.classList.add('show');
+                
+                // Reset button state
+                submitBtn.classList.remove('loading');
+                submitBtn.textContent = 'Get Exclusive Access';
+            }
+        });
+
+        // Clear error message when user starts typing
+        passwordInput.addEventListener('input', () => {
+            errorMessage.classList.remove('show');
+        });
+
+        // Enhance UX with Enter key support
+        passwordInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                form.dispatchEvent(new Event('submit'));
+            }
+        });
+
+        // Add visual feedback for form interactions
+        const inputs = document.querySelectorAll('input');
+        inputs.forEach(input => {
+            input.addEventListener('focus', () => {
+                input.parentElement.style.transform = 'scale(1.02)';
+            });
+            
+            input.addEventListener('blur', () => {
+                input.parentElement.style.transform = 'scale(1)';
+            });
+        });
+    </script>
+</body>
+</html>
